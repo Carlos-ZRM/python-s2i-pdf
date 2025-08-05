@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# S2I save-artifacts script for the Python application
+# The save-artifacts script streams a tar file to stdout that contains the artifacts to be reused in the next build.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+pushd ${HOME} >/dev/null
+
+if [ -d ./.cache/pip ]; then
+    tar cf - ./.cache/pip
+fi
+
+popd >/dev/null

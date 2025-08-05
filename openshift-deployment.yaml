@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: python-s2i-pdf
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/your-username/python-s2i-pdf.git
+    contextDir: "."
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: python:3.12-ubi9
+        namespace: openshift
+  output:
+    to:
+      kind: ImageStreamTag
+      name: python-s2i-pdf:latest
+---
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: python-s2i-pdf
+spec:
+  replicas: 1
+  selector:
+    app: python-s2i-pdf
+  template:
+    metadata:
+      labels:
+        app: python-s2i-pdf
+    spec:
+      containers:
+      - name: python-s2i-pdf
+        image: python-s2i-pdf:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: S3_ENDPOINT_URL
+          value: "your-s3-endpoint-url"
+  triggers:
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - python-s2i-pdf
+      from:
+        kind: ImageStreamTag
+        name: python-s2i-pdf:latest

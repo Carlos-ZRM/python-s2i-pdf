@@ -1,0 +1,17 @@
+#!/bin/bash -e
+#
+# S2I run script for the Python application
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+	exec /usr/libexec/s2i/usage
+fi
+
+echo "---> Starting Python Flask application..."
+export FLASK_APP=main.py
+export FLASK_ENV=production
+exec python main.py

@@ -18,7 +18,20 @@ if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
 fi
 
 echo "---> Installing application source..."
-cp -Rf /tmp/src/. ./
+echo "DEBUG: Contents of /tmp/src:"
+ls -la /tmp/src/
+echo "DEBUG: Checking for app-src directory..."
+if [ -d "/tmp/src/app-src" ]; then
+  echo "DEBUG: Found app-src directory, copying from /tmp/src/app-src/ to current directory"
+  cp -Rf /tmp/src/app-src/. ./
+  echo "DEBUG: Contents after copying:"
+  ls -la ./
+else
+  echo "DEBUG: No app-src directory, copying from /tmp/src/ to current directory"
+  cp -Rf /tmp/src/. ./
+  echo "DEBUG: Contents after copying:"
+  ls -la ./
+fi
 
 echo "---> Installing dependencies..."
 if [ -f requirements.txt ]; then

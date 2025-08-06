@@ -7,6 +7,9 @@ ADD app-src /tmp/src
 RUN /usr/bin/fix-permissions /tmp/src
 USER 1001
 
+# Set environment variables for the Python s2i image
+ENV APP_FILE=main.py
+
 # Install the dependencies
 RUN /usr/libexec/s2i/assemble
 

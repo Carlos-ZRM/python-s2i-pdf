@@ -117,6 +117,4 @@ def changelog():
     return render_template("changelog.html", content=html_content)
 
 if __name__ == '__main__':
-    sleep(10000)
-    sys.exit(0)
     app.run(host='0.0.0.0', port=8080, debug=True)
